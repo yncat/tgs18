@@ -1,0 +1,7 @@
+*.pyc
+result.txt
+log.txt
+build/
+dist/
+*.log
+*.spec
