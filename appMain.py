@@ -15,7 +15,7 @@ class Application(window.SingletonWindow):
 		super().__init__()
 	def initialize(self):
 		super().initialize(640, 480, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
-
+		openal.oalGetListener().set_gain(8)
 
 	def run(self):
 		w=world.World()
