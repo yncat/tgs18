@@ -4,7 +4,7 @@
 import openal
 import buildSettings
 import window
-
+import world
 class Application(window.SingletonWindow):
 	"""
 	The game's main application class.
@@ -16,9 +16,14 @@ class Application(window.SingletonWindow):
 	def initialize(self):
 		super().initialize(640, 480, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 
+
 	def run(self):
+		w=world.World()
 		while(True):
 			self.frameUpdate()
+			w.frameUpdate()
 			if self.keyPressed(window.K_ESCAPE): break
 		self.exit()
 
+	def exit(self):
+		openal.oalQuit()
