@@ -28,9 +28,14 @@ class SingletonWindow():
 		"""
 		self.screen = pygame.display.set_mode((x, y))
 		pygame.display.set_caption(ttl)
+		pygame.mouse.set_visible(False)
+		pygame.mouse.set_pos(300,300)
 		self.keys=[0]*255
 		self.previousKeys=[0]*255
+		self.mouse=(False,False,False)
+		self.lastMouse=(False,False,False)
 		self.speech=accessible_output2.outputs.auto.Auto()
+		self.mouseMovement=(0,0)
 		return True
 
 	def frameUpdate(self):
@@ -43,12 +48,16 @@ class SingletonWindow():
 		self.screen.fill((255,63,10,))
 		pygame.display.update()
 		self.previousKeys=copy(self.keys)
+		self.previousMouse=copy(self.mouse)
 		self.keys=pygame.key.get_pressed()
 		if self.keyPressed(K_LCTRL): self.sayStop()
 		if self.keyPressing(K_LALT) and self.keyPressed(K_F4): self.exit()
 		for event in pygame.event.get():
 			if event.type == QUIT: self.exit()
 		#end event
+		#mouse buttons can't be detected before getting events
+		self.mouse=pygame.mouse.get_pressed()
+		self.mouseMovement=pygame.mouse.get_rel()
 	#end frameUpdate
 
 	def keyPressed(self,key):
@@ -66,6 +75,44 @@ class SingletonWindow():
 		:rtype: bool
 		"""
 		return self.keys[key]
+
+	def mousePressed(self,key):
+		"""
+		Retrieves if the specified mouse button has changed to "pressed" from "not pressed" at the last frame. Doesn't cause key repeats.
+
+		:rtype: bool
+		"""
+		return self.mouse[key] and not self.previousMouse[key]
+
+	def mouseReleased(self,key):
+		"""
+		Retrieves if the specified mouse button has changed to "not pressed" from "pressed" at the last frame. Doesn't cause key repeats.
+
+		:rtype: bool
+		"""
+		return not self.mouse[key] and self.previousMouse[key]
+
+	def mousePressing(self,key):
+		"""
+		Retrieves if the specified mouse button is being pressed. Key repeats at 60rp/sec.
+
+		:rtype: bool
+		"""
+		return self.mouse[key]
+
+	def mouseMoveDistance(self):
+		"""Retrieves the amount of mouse movement.
+
+		:rtype: (x,y)
+		"""
+		return self.mouseMovement
+
+	def mousePosition(self):
+		"""Returns the current mouse position.
+
+		:rtype: (x,y)
+		"""
+		return pygame.mouse.get_pos()
 
 	def wait(self,msec):
 		"""waits for a specified period of milliseconds while keeping the window looping. """

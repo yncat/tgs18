@@ -16,4 +16,5 @@ class World(object):
 
 	def frameUpdate(self):
 		if globalVars.app.keyPressed(window.K_q): globalVars.app.say("%.2f, %.2f" % (self.enemies[0].x, self.enemies[0].z))
+		self.player.frameUpdate()
 		for elem in self.enemies: elem.frameUpdate()
