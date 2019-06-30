@@ -14,13 +14,14 @@ class Mosquito(object):
 		self.world=world
 		self.degrees=random.randint(0,359)
 		self.distance=INITIAL_DISTANCE
-		self.flying_sound=vrsound.load("fx/wings1.ogg")
+		self.flying_sound=vrsound.load("fx/mosquito.ogg")
 		self.flying_sound.setLooping(True)
 		self.updatePosition()
 		self.turn_speed=-5 if random.randint(0,1)==0 else 5
 		self.approach_facter=0
 		self.flying_sound.play()
 		self.timer=window.Timer()
+		self.hp=100
 
 	def updatePosition(self):
 		rad=math.radians(self.degrees)
@@ -37,3 +38,14 @@ class Mosquito(object):
 		if self.distance<0.05: self.distance=0.05
 		self.updatePosition()
 		self.timer.restart()
+
+	def damage(self,amount):
+		self.hp-=amount
+		if self.hp<0:self.hp=1
+		self.flying_sound.setPitch(0.7+(self.hp*0.003))
+		print("damage %s hp %s" % (amount,self.hp))
+
+	def getDistance(self,x,z):
+		_x=x-self.x
+		_z=z-self.z
+		return math.sqrt((_x*_x)+(_z*_z))

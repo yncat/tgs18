@@ -65,7 +65,9 @@ class SingletonWindow():
 		#end event
 		#mouse buttons can't be detected before getting events
 		self.mouse=pygame.mouse.get_pressed()
-		self.mouseMovement=pygame.mouse.get_rel()
+		mpos=pygame.mouse.get_pos()
+		self.mouseMovement=(mpos[0]-(self.screenSize[0]/2),mpos[1]-(self.screenSize[1]/2))
+		self.setMousePos(self.screenSize[0]/2,self.screenSize[1]/2)
 	#end frameUpdate
 
 	def keyPressed(self,key):

@@ -20,3 +20,7 @@ class OpenAlSource(object):
 
 	def setPosition(self,pos):
 		self.handle.set_position(pos)
+
+	def setPitch(self,pitch):
+		self.handle.set_pitch(pitch)
+

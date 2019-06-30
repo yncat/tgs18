@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # TGS19 weapons
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
+import globalVars
 import vrsound
 import window
 
@@ -8,7 +9,8 @@ import window
 
 class Spray(object):
 	"""A spray can that contains poisonus substance."""
-	def __init__(self):
+	def __init__(self,world):
+		self.world=world
 		self.capacity=30
 		self.active=False
 		self.loopTimer=window.Timer()
@@ -19,10 +21,21 @@ class Spray(object):
 		self.stopSound=vrsound.load("fx/se.ogg")
 		self.x=0
 		self.z=0
+		self.attackTimer=window.Timer()
 
 	def frameUpdate(self,dist):
 		self.move(dist)
 		if self.active is True and self.looping is False and self.loopTimer.elapsed>80: self._loop()
+		if self.active and self.attackTimer.elapsed>=50: self._attack()
+
+	def _attack(self):
+		for elem in self.world.enemies:
+			d=elem.getDistance(self.x,self.z)
+			if d<=1:
+				print("d=%s" % d)
+				elem.damage(10-(d*10))
+		#end for
+		self.attackTimer.restart()
 
 	def _loop(self):
 		self.looping=True

@@ -7,8 +7,8 @@ import window
 
 class Player(object):
 	"""This object represents a player."""
-	def __init__(self):
-		self.weapon=weapons.Spray()
+	def __init__(self,world):
+		self.weapon=weapons.Spray(world)
 
 	def frameUpdate(self):
 		self.weapon.frameUpdate(globalVars.app.mouseMoveDistance())

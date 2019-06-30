@@ -11,7 +11,7 @@ class World(object):
 	"""This object represents a game world."""
 	def __init__(self):
 		self.enemies=[]
-		self.player=player.Player()
+		self.player=player.Player(self)
 		self.enemies.append(enemies.Mosquito(self))
 
 	def frameUpdate(self):
