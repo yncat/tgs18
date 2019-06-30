@@ -26,10 +26,11 @@ class SingletonWindow():
 
 		:rtype: bool
 		"""
-		self.screen = pygame.display.set_mode((x, y))
+		self.screenSize=(x,y)
+		self.screen = pygame.display.set_mode(self.screenSize)
 		pygame.display.set_caption(ttl)
 		pygame.mouse.set_visible(False)
-		pygame.mouse.set_pos(300,300)
+		pygame.mouse.set_pos(x/2,y/2)
 		self.keys=[0]*255
 		self.previousKeys=[0]*255
 		self.mouse=(False,False,False)
@@ -37,6 +38,13 @@ class SingletonWindow():
 		self.speech=accessible_output2.outputs.auto.Auto()
 		self.mouseMovement=(0,0)
 		return True
+
+	def getScreenSize(self):
+		"""Returns the screen size as a tuple.
+
+		:rtype: (x,y)
+		"""
+		return self.screenSize
 
 	def frameUpdate(self):
 		"""
@@ -107,12 +115,22 @@ class SingletonWindow():
 		"""
 		return self.mouseMovement
 
-	def mousePosition(self):
+	def mousePos(self):
 		"""Returns the current mouse position.
 
 		:rtype: (x,y)
 		"""
 		return pygame.mouse.get_pos()
+
+	def setMousePos(self,x,y):
+		"""Sets the current mouse position.
+
+		:param x: x.
+		:type x: int
+		:param y: y.
+		:type y: int
+		"""
+		return pygame.mouse.set_pos(x,y)
 
 	def wait(self,msec):
 		"""waits for a specified period of milliseconds while keeping the window looping. """

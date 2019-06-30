@@ -11,6 +11,6 @@ class Player(object):
 		self.weapon=weapons.Spray()
 
 	def frameUpdate(self):
-		self.weapon.frameUpdate()
+		self.weapon.frameUpdate(globalVars.app.mouseMoveDistance())
 		if globalVars.app.mousePressed(0): self.weapon.trigger()
 		if globalVars.app.mouseReleased(0): self.weapon.untrigger()

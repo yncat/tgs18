@@ -17,8 +17,11 @@ class Spray(object):
 		self.loopSound=vrsound.load("fx/sl.ogg")
 		self.loopSound.setLooping(True)
 		self.stopSound=vrsound.load("fx/se.ogg")
+		self.x=0
+		self.z=0
 
-	def frameUpdate(self):
+	def frameUpdate(self,dist):
+		self.move(dist)
 		if self.active is True and self.looping is False and self.loopTimer.elapsed>80: self._loop()
 
 	def _loop(self):
@@ -37,3 +40,13 @@ class Spray(object):
 		self.loopSound.stop()
 		self.startSound.stop()
 		self.active=False
+
+	def move(self,dist):
+		self.x+=dist[0]/200
+		self.z+=dist[1]/200
+		self.updatePosition()
+
+	def updatePosition(self):
+		self.startSound.setPosition((self.x,0,self.z))
+		self.loopSound.setPosition((self.x,0,self.z))
+		self.stopSound.setPosition((self.x,0,self.z))

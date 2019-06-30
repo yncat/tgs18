@@ -14,10 +14,12 @@ class Application(window.SingletonWindow):
 	def __init__(self):
 		super().__init__()
 	def initialize(self):
-		super().initialize(640, 480, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
+		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		openal.oalGetListener().set_gain(8)
 
 	def run(self):
+		s=self.getScreenSize()
+		self.setMousePos(s[0]/2,s[1]/2)
 		w=world.World()
 		while(True):
 			self.frameUpdate()
