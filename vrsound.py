@@ -24,3 +24,5 @@ class OpenAlSource(object):
 	def setPitch(self,pitch):
 		self.handle.set_pitch(pitch)
 
+	def setGain(self,gain):
+		self.handle.set_gain(gain)

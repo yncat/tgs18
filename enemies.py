@@ -8,6 +8,10 @@ import window
 
 INITIAL_DISTANCE=2.0
 
+ACTIVE=0
+DYING=1
+DEAD=2
+
 class Mosquito(object):
 	"""That damned guy. Kill em all! Exterminate!!!!!!!!!!!"""
 	def __init__(self,world):
@@ -22,6 +26,9 @@ class Mosquito(object):
 		self.flying_sound.play()
 		self.timer=window.Timer()
 		self.hp=100
+		self.deathStep=9
+		self.stat=ACTIVE
+		self.deathTimer=window.Timer()
 
 	def updatePosition(self):
 		rad=math.radians(self.degrees)
@@ -30,7 +37,11 @@ class Mosquito(object):
 		self.flying_sound.setPosition((self.x,0,self.z))
 
 	def frameUpdate(self):
-		if self.timer.elapsed<50: return
+		if self.stat==DEAD: return
+		if self.timer.elapsed>=50: self.move()
+		if self.stat==DYING and self.deathTimer.elapsed>=30: self._kill()
+
+	def move(self):
 		self.degrees+=self.turn_speed
 		if self.degrees<0: self.degrees+=360
 		if self.degrees>359: self.degrees-=360
@@ -40,10 +51,30 @@ class Mosquito(object):
 		self.timer.restart()
 
 	def damage(self,amount):
+		if self.stat!=ACTIVE: return
 		self.hp-=amount
-		if self.hp<0:self.hp=1
+		if self.hp<0:
+			self.kill()
+			return
+	#end kill
 		self.flying_sound.setPitch(0.7+(self.hp*0.003))
-		print("damage %s hp %s" % (amount,self.hp))
+
+	def kill(self):
+		if self.stat!=ACTIVE: return
+		self.stat=DYING
+		self.flying_sound.setPitch(0.9)
+		self.flying_sound.setGain(0.9)
+		self.deathTimer.restart()
+
+	def _kill(self):
+		self.deathStep-=1
+		self.flying_sound.setPitch(self.deathStep*0.1)
+		self.flying_sound.setGain(self.deathStep*0.1)
+		if self.deathStep==0:
+			self.stat=DEAD
+			return
+		#end dead
+		self.deathTimer.restart()
 
 	def getDistance(self,x,z):
 		_x=x-self.x
