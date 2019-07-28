@@ -22,7 +22,7 @@ class World(object):
 		#end enemies update
 		if self.spawnTimer.elapsed>=5000:
 			self.spawnTimer.restart()
-			self.enemies.append(enemies.Mosquito(self))
+			#self.enemies.append(enemies.Mosquito(self))
 		if globalVars.app.keyPressed(window.K_q): globalVars.app.say("%.2f, %.2f" % (self.enemies[0].x, self.enemies[0].z))
 		self.player.frameUpdate()
 		for elem in self.enemies: elem.frameUpdate()
