@@ -76,6 +76,9 @@ class Mosquito(object):
 		#end dead
 		self.deathTimer.restart()
 
+	def delete(self):
+		self.flying_sound.stop()
+
 	def getDistance(self,x,z):
 		_x=x-self.x
 		_z=z-self.z

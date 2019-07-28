@@ -50,8 +50,8 @@ class Spray(object):
 		self.capacity-=1
 		for elem in self.world.enemies:
 			d=elem.getDistance(self.x,self.z)
-			if d<=1:
-				elem.damage(10-(d*10))
+			if d<=1.5:
+				elem.damage(10-(d*7.5))
 		#end for
 		self.attackTimer.restart()
 
@@ -123,3 +123,12 @@ class Spray(object):
 		#end for
 	#end _playSound
 
+	def delete(self):
+		for i in range(len(self.loopSound)):
+			self.startSound[i].stop()
+			self.loopSound[i].stop()
+			self.stopSound[i].stop()
+		#end stop
+		self.startSound=None
+		self.loopSound=None
+		self.stopSound=None

@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 # TGS19 main implementation
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
 import openal
 import bgtsound
 import buildSettings
+import dialog
 import window
 import world
 class Application(window.SingletonWindow):
@@ -32,7 +33,9 @@ class Application(window.SingletonWindow):
 			if self.keyPressed(window.K_ESCAPE): break
 		#end game loop
 		bgtsound.playOneShot(self.gameoverSample)
+		w.clear()
 		self.wait(3000)
+		dialog.dialog("結果", "今回の特典は、%dでした。" % w.getScore())
 		self.exit()
 
 	def exit(self):

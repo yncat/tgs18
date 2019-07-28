@@ -17,3 +17,7 @@ class Player(object):
 
 	def getWeaponCapacity(self):
 		return self.weapon.getCapacity()
+
+	def delete(self):
+		self.weapon.delete()
+		self.weapon=None
