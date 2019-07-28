@@ -55,7 +55,7 @@ class Spray(object):
 		self.active=True
 
 	def untrigger(self):
-		globalVars.app.say("%d" % self.capacity)
+		globalVars.app.say("%f" % self.x)
 		self._playSound(self.stopSound)
 		for elem in self.loopSound:
 			elem.stop()
@@ -71,7 +71,7 @@ class Spray(object):
 		self.updatePosition()
 
 	def updatePosition(self):
-		for i in range(len(self.startSound)):
+		for i in range(len(self.loopSound)):
 			self.startSound[i].setPosition((self.x,0,self.z))
 			self.loopSound[i].setPosition((self.x,0,self.z))
 			self.stopSound[i].setPosition((self.x,0,self.z))

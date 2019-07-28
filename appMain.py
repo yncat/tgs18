@@ -2,6 +2,7 @@
 # TGS19 main implementation
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
 import openal
+import bgtsound
 import buildSettings
 import window
 import world
@@ -16,6 +17,8 @@ class Application(window.SingletonWindow):
 	def initialize(self):
 		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		openal.oalGetListener().set_gain(8)
+		self.pointSample=bgtsound.sample("fx/point.ogg")
+
 
 	def run(self):
 		s=self.getScreenSize()

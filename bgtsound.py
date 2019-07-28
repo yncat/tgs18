@@ -12,6 +12,8 @@ from sound_lib import stream
 from dialog import dialog
 o=sound_lib.output.Output()
 
+sample=sound_lib.sample.Sample
+
 class sound():
 	def __init__(self):
 		self.handle=None
@@ -29,6 +31,9 @@ class sound():
 		if self.handle:
 			self.close()
 #end close previous
+		if isinstance(sample,str):
+			sample=sound_lib.sample.Sample(sample)
+		#end loading from str
 		self.handle =sound_lib.sample.SampleBasedChannel(sample)
 		self.freq=self.handle.get_frequency()
 
