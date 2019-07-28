@@ -25,12 +25,28 @@ class Spray(object):
 		self.z=0
 		self.attackTimer=window.Timer()
 		self.gains=(0.0, 0.0, 0.0)
+		self.gotEmpty=False
+		self.afterEmptyTimer=window.Timer()
+
 	def frameUpdate(self,dist):
+		if self.gotEmpty and self.afterEmptyTimer.elapsed>=3000:
+			self.gotEmpty=False
+			self.capacity=0
+		#end 23 seconds of silence after getting empty
 		self.move(dist)
 		if self.active is True and self.looping is False and self.loopTimer.elapsed>80: self._loop()
 		if self.active and self.attackTimer.elapsed>=50: self._attack()
 
+	def getCapacity(self):
+		return self.capacity
+
 	def _attack(self):
+		if self.capacity ==1:
+			self.untrigger()
+			self.gotEmpty=True
+			self.afterEmptyTimer.restart()
+			return
+		#end got empty
 		self.capacity-=1
 		for elem in self.world.enemies:
 			d=elem.getDistance(self.x,self.z)
@@ -45,6 +61,7 @@ class Spray(object):
 		self._playSound(self.loopSound)
 
 	def trigger(self):
+		if self.capacity<=1: return
 		self._updateGains()
 		self._playSound(self.startSound)
 		for elem in self.stopSound:
@@ -55,7 +72,8 @@ class Spray(object):
 		self.active=True
 
 	def untrigger(self):
-		globalVars.app.say("%f" % self.x)
+		if self.active is not True: return
+		globalVars.app.say("%d" % self.capacity)
 		self._playSound(self.stopSound)
 		for elem in self.loopSound:
 			elem.stop()
@@ -68,6 +86,10 @@ class Spray(object):
 	def move(self,dist):
 		self.x+=dist[0]/200
 		self.z+=dist[1]/200
+		if self.x>3.0: self.x=3.0
+		if self.x<-3.0: self.x=-3.0
+		if self.z>3.0: self.z=3.0
+		if self.z<-3.0: self.z=-3.0
 		self.updatePosition()
 
 	def updatePosition(self):
@@ -100,3 +122,4 @@ class Spray(object):
 			s[i].play()
 		#end for
 	#end _playSound
+

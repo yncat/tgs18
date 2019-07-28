@@ -18,6 +18,7 @@ class Application(window.SingletonWindow):
 		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		openal.oalGetListener().set_gain(8)
 		self.pointSample=bgtsound.sample("fx/point.ogg")
+		self.gameoverSample=bgtsound.sample("fx/gameover.ogg")
 
 
 	def run(self):
@@ -27,7 +28,11 @@ class Application(window.SingletonWindow):
 		while(True):
 			self.frameUpdate()
 			w.frameUpdate()
+			if w.getGameover(): break
 			if self.keyPressed(window.K_ESCAPE): break
+		#end game loop
+		bgtsound.playOneShot(self.gameoverSample)
+		self.wait(3000)
 		self.exit()
 
 	def exit(self):

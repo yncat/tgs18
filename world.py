@@ -31,6 +31,9 @@ class World(object):
 		self.player.frameUpdate()
 		for elem in self.enemies: elem.frameUpdate()
 
+	def getGameover(self):
+		return self.player.getWeaponCapacity() ==0
+
 	def _addPoint(self):
 		bgtsound.playOneShot(globalVars.app.pointSample)
 		self.score+=1
