@@ -9,9 +9,10 @@ class Player(object):
 	"""This object represents a player."""
 	def __init__(self,world):
 		self.weapon=weapons.Spray(world)
+		self.paused=False
 
 	def frameUpdate(self):
-		self.weapon.frameUpdate(globalVars.app.mouseMoveDistance())
+		self.weapon.frameUpdate(globalVars.app.mouseMoveDistance()*2)
 		if globalVars.app.mousePressed(0): self.weapon.trigger()
 		if globalVars.app.mouseReleased(0): self.weapon.untrigger()
 
@@ -21,3 +22,8 @@ class Player(object):
 	def delete(self):
 		self.weapon.delete()
 		self.weapon=None
+
+	def setPaused(self,p):
+		if p==self.paused: return
+		self.paused=p
+		self.weapon.setPaused(p)

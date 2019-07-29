@@ -11,7 +11,7 @@ class Spray(object):
 	"""A spray can that contains poisonus substance."""
 	def __init__(self,world):
 		self.world=world
-		self.capacity=350
+		self.capacity=600
 		self.active=False
 		self.loopTimer=window.Timer()
 		self.looping=False
@@ -21,12 +21,14 @@ class Spray(object):
 			elem.setLooping(True)
 		#end set looping
 		self.stopSound=[vrsound.load("fx/spray2end.ogg"), vrsound.load("fx/spray1end.ogg"), vrsound.load("fx/spray0end.ogg")]
+		self.emptySound=vrsound.load("fx/spray1end.ogg")
 		self.x=0
 		self.z=0
 		self.attackTimer=window.Timer()
 		self.gains=(0.0, 0.0, 0.0)
 		self.gotEmpty=False
 		self.afterEmptyTimer=window.Timer()
+		self.paused=False
 
 	def frameUpdate(self,dist):
 		if self.gotEmpty and self.afterEmptyTimer.elapsed>=3000:
@@ -50,8 +52,8 @@ class Spray(object):
 		self.capacity-=1
 		for elem in self.world.enemies:
 			d=elem.getDistance(self.x,self.z)
-			if d<=1.5:
-				elem.damage(10-(d*7.5))
+			if d<=2.5:
+				elem.damage(10-(d*4))
 		#end for
 		self.attackTimer.restart()
 
@@ -61,7 +63,10 @@ class Spray(object):
 		self._playSound(self.loopSound)
 
 	def trigger(self):
-		if self.capacity<=1: return
+		if self.capacity<=1:
+			self.emptySound.play()
+			return
+		#end empty
 		self._updateGains()
 		self._playSound(self.startSound)
 		for elem in self.stopSound:
@@ -132,3 +137,15 @@ class Spray(object):
 		self.startSound=None
 		self.loopSound=None
 		self.stopSound=None
+
+	def setPaused(self,p):
+		if p==self.paused: return
+		self.paused=p
+		for i in range(len(self.loopSound)):
+			self.startSound[i].setPaused(p)
+			self.loopSound[i].setPaused(p)
+			self.stopSound[i].setPaused(p)
+		#end stop
+		self.loopTimer.setPaused(p)
+		self.attackTimer.setPaused(p)
+		self.afterEmptyTimer.setPaused(p)

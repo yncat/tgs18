@@ -16,6 +16,7 @@ class World(object):
 		self.enemies.append(enemies.Mosquito(self))
 		self.spawnTimer=window.Timer()
 		self.score=0
+		self.paused=False
 
 	def frameUpdate(self):
 		for elem in self.enemies[:]:
@@ -47,3 +48,13 @@ class World(object):
 	def _addPoint(self):
 		bgtsound.playOneShot(globalVars.app.pointSample)
 		self.score+=1
+
+	def setPaused(self,p):
+		if p==self.paused: return
+		self.paused=p
+		self.player.setPaused(p)
+		for elem in self.enemies:
+			elem.setPaused(p)
+
+	def _detatchEnemy(self,elem):
+		self.enemies.remove(elem)

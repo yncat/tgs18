@@ -3,10 +3,12 @@
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
 import random
 import math
+import bgtsound
+import globalVars
 import vrsound
 import window
 
-INITIAL_DISTANCE=2.0
+INITIAL_DISTANCE=5.0
 
 ACTIVE=0
 DYING=1
@@ -22,13 +24,14 @@ class Mosquito(object):
 		self.flying_sound.setLooping(True)
 		self.updatePosition()
 		self.turn_speed=-5 if random.randint(0,1)==0 else 5
-		self.approach_facter=0
+		self.approach_facter=0.02
 		self.flying_sound.play()
 		self.timer=window.Timer()
 		self.hp=100
 		self.deathStep=9
 		self.stat=ACTIVE
 		self.deathTimer=window.Timer()
+		self.paused=False
 
 	def updatePosition(self):
 		rad=math.radians(self.degrees)
@@ -42,13 +45,24 @@ class Mosquito(object):
 		if self.stat==DYING and self.deathTimer.elapsed>=30: self._kill()
 
 	def move(self):
+		if self.distance<0.1:
+			self._attack()
 		self.degrees+=self.turn_speed
+		if self.degrees<=10: globalVars.app.say("%f" % self.distance)
 		if self.degrees<0: self.degrees+=360
 		if self.degrees>359: self.degrees-=360
 		self.distance-=self.approach_facter
 		if self.distance<0.05: self.distance=0.05
 		self.updatePosition()
 		self.timer.restart()
+
+	def _attack(self):
+		bgtsound.playOneShot(globalVars.app.needleSample)
+		self.world.setPaused(True)
+		globalVars.app.wait(1100)
+		self.world._detatchEnemy(self)
+		self.world.setPaused(False)
+		self.delete()
 
 	def damage(self,amount):
 		if self.stat!=ACTIVE: return
@@ -83,3 +97,9 @@ class Mosquito(object):
 		_x=x-self.x
 		_z=z-self.z
 		return math.sqrt((_x*_x)+(_z*_z))
+
+	def setPaused(self,p):
+		if p==self.paused: return
+		self.flying_sound.setPaused(p)
+		self.timer.setPaused(p)
+		self.paused=p

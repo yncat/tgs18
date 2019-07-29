@@ -20,6 +20,7 @@ class Application(window.SingletonWindow):
 		openal.oalGetListener().set_gain(8)
 		self.pointSample=bgtsound.sample("fx/point.ogg")
 		self.gameoverSample=bgtsound.sample("fx/gameover.ogg")
+		self.needleSample=bgtsound.sample("fx/needle.ogg")
 
 
 	def run(self):
