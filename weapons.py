@@ -22,6 +22,7 @@ class Spray(object):
 		#end set looping
 		self.stopSound=[vrsound.load("fx/spray2end.ogg"), vrsound.load("fx/spray1end.ogg"), vrsound.load("fx/spray0end.ogg")]
 		self.emptySound=vrsound.load("fx/spray1end.ogg")
+		self.resetSound=vrsound.load("fx/reset.ogg")
 		self.x=0
 		self.z=0
 		self.attackTimer=window.Timer()
@@ -49,6 +50,7 @@ class Spray(object):
 			self.afterEmptyTimer.restart()
 			return
 		#end got empty
+		self._updateGains()
 		self.capacity-=1
 		for elem in self.world.enemies:
 			d=elem.getDistance(self.x,self.z)
@@ -59,7 +61,6 @@ class Spray(object):
 
 	def _loop(self):
 		self.looping=True
-		self._updateGains()
 		self._playSound(self.loopSound)
 
 	def trigger(self):
@@ -149,3 +150,8 @@ class Spray(object):
 		self.loopTimer.setPaused(p)
 		self.attackTimer.setPaused(p)
 		self.afterEmptyTimer.setPaused(p)
+
+	def resetPosition(self):
+		self.resetSound.play()
+		self.x=0
+		self.z=0
