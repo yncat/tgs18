@@ -70,6 +70,10 @@ class sound():
 		if self.handle and self.handle.is_playing:
 			self.handle.slide_attribute("volume",0,fadetime)
 
+	def slideVolume(self, destination, fadetime):
+		if self.handle and self.handle.is_playing:
+			self.handle.slide_attribute("volume",destination,fadetime)
+
 	@property
 	def volume(self):
 		if not self.handle:

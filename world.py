@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # TGS19 game world
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
+import background
 import bgtsound
 import openal
 import enemies
@@ -11,6 +12,8 @@ import window
 class World(object):
 	"""This object represents a game world."""
 	def __init__(self):
+		self.background=background.Background()
+		self.background.play()
 		self.enemies=[]
 		self.player=player.Player(self)
 		self.enemies.append(enemies.Mosquito(self))
