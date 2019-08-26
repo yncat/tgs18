@@ -79,7 +79,6 @@ class Spray(object):
 
 	def untrigger(self):
 		if self.active is not True: return
-		globalVars.app.say("%d" % self.capacity)
 		self._playSound(self.stopSound)
 		for elem in self.loopSound:
 			elem.stop()

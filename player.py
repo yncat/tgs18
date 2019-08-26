@@ -13,9 +13,9 @@ class Player(object):
 
 	def frameUpdate(self):
 		self.weapon.frameUpdate(globalVars.app.mouseMoveDistance()*2)
-		if globalVars.app.mousePressed(0): self.weapon.trigger()
+		if globalVars.app.mousePressed(0) or globalVars.app.keyPressed(window.K_b): self.weapon.trigger()
 		if globalVars.app.mousePressed(2): self.weapon.resetPosition()
-		if globalVars.app.mouseReleased(0): self.weapon.untrigger()
+		if globalVars.app.mouseReleased(0) or globalVars.app.keyReleased(window.K_b): self.weapon.untrigger()
 
 	def getWeaponCapacity(self):
 		return self.weapon.getCapacity()

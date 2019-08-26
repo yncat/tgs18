@@ -86,6 +86,14 @@ class SingletonWindow():
 		"""
 		return self.keys[key]
 
+	def keyReleased(self,key):
+		"""
+		Retrieves if the specified key has changed to "not pressed" from "pressed" at the last frame. Doesn't cause key repeats.
+
+		:rtype: bool
+		"""
+		return not self.keys[key] and self.previousKeys[key]
+
 	def mousePressed(self,key):
 		"""
 		Retrieves if the specified mouse button has changed to "pressed" from "not pressed" at the last frame. Doesn't cause key repeats.

@@ -48,7 +48,6 @@ class Mosquito(object):
 		if self.distance<0.1:
 			self._attack()
 		self.degrees+=self.turn_speed
-		if self.degrees<=10: globalVars.app.say("%f" % self.distance)
 		if self.degrees<0: self.degrees+=360
 		if self.degrees>359: self.degrees-=360
 		self.distance-=self.approach_facter
