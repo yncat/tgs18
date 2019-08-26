@@ -21,12 +21,14 @@ class Application(window.SingletonWindow):
 		self.pointSample=bgtsound.sample("fx/point.ogg")
 		self.gameoverSample=bgtsound.sample("fx/gameover.ogg")
 		self.needleSample=bgtsound.sample("fx/needle.ogg")
+		self.world=None
 
 
 	def run(self):
 		s=self.getScreenSize()
 		self.setMousePos(s[0]/2,s[1]/2)
 		w=world.World()
+		self.world=w
 		while(True):
 			self.frameUpdate()
 			w.frameUpdate()
@@ -35,9 +37,12 @@ class Application(window.SingletonWindow):
 		#end game loop
 		bgtsound.playOneShot(self.gameoverSample)
 		w.clear()
+		w.terminate()
 		self.wait(3000)
 		dialog.dialog("結果", "今回の特典は、%dでした。" % w.getScore())
 		self.exit()
 
-	def exit(self):
+	def onExit(self):
+		if self.world: self.world.terminate()
 		openal.oalQuit()
+		return True

@@ -9,6 +9,7 @@ import globalVars
 import player
 import window
 
+AMB_VOLUME_STEP=6
 class World(object):
 	"""This object represents a game world."""
 	def __init__(self):
@@ -16,10 +17,13 @@ class World(object):
 		self.background.play()
 		self.enemies=[]
 		self.player=player.Player(self)
-		self.enemies.append(enemies.Mosquito(self))
 		self.spawnTimer=window.Timer()
 		self.score=0
 		self.paused=False
+
+	def terminate(self):
+		if self.background: self.background.terminate()
+		self.background=None
 
 	def frameUpdate(self):
 		for elem in self.enemies[:]:
@@ -30,12 +34,17 @@ class World(object):
 		#end enemies update
 		if self.spawnTimer.elapsed>=5000:
 			self.spawnTimer.restart()
-			self.enemies.append(enemies.Mosquito(self))
+			self.spawnEnemy()
+		#end spawn
 		self.player.frameUpdate()
 		for elem in self.enemies: elem.frameUpdate()
 
 	def getScore(self):
 		return self.score
+
+	def spawnEnemy(self):
+		self.enemies.append(enemies.Mosquito(self))
+		self.background.changeVolume(AMB_VOLUME_STEP*-1)
 
 	def getGameover(self):
 		return self.player.getWeaponCapacity() ==0
@@ -50,6 +59,7 @@ class World(object):
 	def _addPoint(self):
 		bgtsound.playOneShot(globalVars.app.pointSample)
 		self.score+=1
+		self.background.changeVolume(AMB_VOLUME_STEP)
 
 	def setPaused(self,p):
 		if p==self.paused: return
@@ -60,3 +70,4 @@ class World(object):
 
 	def _detatchEnemy(self,elem):
 		self.enemies.remove(elem)
+		self.background.changeVolume(AMB_VOLUME_STEP)
