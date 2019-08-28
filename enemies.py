@@ -20,7 +20,7 @@ class Mosquito(object):
 		self.world=world
 		self.degrees=random.randint(0,359)
 		self.distance=INITIAL_DISTANCE
-		self.flying_sound=vrsound.load("fx/mosquito.ogg")
+		self.flying_sound=vrsound.load("fx/mosquito2.wav")
 		self.flying_sound.setLooping(True)
 		self.updatePosition()
 		self.turn_speed=-5 if random.randint(0,1)==0 else 5

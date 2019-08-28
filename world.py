@@ -14,6 +14,7 @@ class World(object):
 	"""This object represents a game world."""
 	def __init__(self):
 		self.background=background.Background()
+		self.background.changeVolume(-10)
 		self.background.play()
 		self.enemies=[]
 		self.player=player.Player(self)
