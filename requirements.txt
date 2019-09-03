@@ -1,0 +1,6 @@
+pygame
+wxpython
+pyOpenAL
+winpaths
+pywin32
+pyogg
