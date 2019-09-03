@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # TGS19 player
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
+import buildSettings
 import globalVars
 import weapons
 import window
@@ -12,7 +13,11 @@ class Player(object):
 		self.paused=False
 
 	def frameUpdate(self):
-		self.weapon.frameUpdate(globalVars.app.mouseMoveDistance()*2)
+		if buildSettings.CONTROLLER_MODE==0:
+			self.weapon.frameUpdate(globalVars.app.mouseMoveDistance()*2)
+		else:
+			self.weapon.frameUpdate(globalVars.app.oscController.getPosition2d()*10, direct=True)
+		#end mouse or OSC
 		if globalVars.app.mousePressed(0) or globalVars.app.keyPressed(window.K_b): self.weapon.trigger()
 		if globalVars.app.mousePressed(2): self.weapon.resetPosition()
 		if globalVars.app.mouseReleased(0) or globalVars.app.keyReleased(window.K_b): self.weapon.untrigger()

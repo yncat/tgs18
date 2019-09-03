@@ -31,12 +31,12 @@ class Spray(object):
 		self.afterEmptyTimer=window.Timer()
 		self.paused=False
 
-	def frameUpdate(self,dist):
+	def frameUpdate(self,dist,direct=False):
 		if self.gotEmpty and self.afterEmptyTimer.elapsed>=3000:
 			self.gotEmpty=False
 			self.capacity=0
 		#end 23 seconds of silence after getting empty
-		self.move(dist)
+		self.move(dist,direct)
 		if self.active is True and self.looping is False and self.loopTimer.elapsed>80: self._loop()
 		if self.active and self.attackTimer.elapsed>=50: self._attack()
 
@@ -88,9 +88,15 @@ class Spray(object):
 		#end stop start sounds
 		self.active=False
 
-	def move(self,dist):
-		self.x+=dist[0]/200
-		self.z+=dist[1]/200
+	def move(self,dist,direct=False):
+		if direct:
+			#print("update %s" % str(dist))
+			self.x=dist[0]
+			self.z=dist[1]
+		else:
+			self.x+=dist[0]/200
+			self.z+=dist[1]/200
+		#end direct or not direct
 		if self.x>3.0: self.x=3.0
 		if self.x<-3.0: self.x=-3.0
 		if self.z>3.0: self.z=3.0

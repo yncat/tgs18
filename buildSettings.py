@@ -4,3 +4,9 @@
 
 GAME_NAME="Wanna kill mosquitoes"
 GAME_VERSION=0.1
+
+OSC_ADDRESS="127.0.0.1"
+OSC_PORT=12000
+
+#Controller mode (mouse=0 osc=1)
+CONTROLLER_MODE=1
