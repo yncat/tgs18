@@ -11,7 +11,7 @@ class Background(object):
 	"""Background ambience can be slided louder / quieter."""
 	def __init__(self):
 		s=bgtsound.sound()
-		s.stream("fx/background.ogg")
+		s.stream("fx/background2.ogg")
 		self.volume=0
 		s.volume=self.volume
 		self.sound=s

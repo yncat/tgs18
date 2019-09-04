@@ -32,7 +32,16 @@ class Application(window.SingletonWindow):
 	def run(self):
 		s=self.getScreenSize()
 		self.setMousePos(s[0]/2,s[1]/2)
-		self._waitForReturn()
+		self.homeSound=bgtsound.sound()
+		self.homeSound.stream("fx/home.ogg")
+		while(True):
+			self.homeSound.play_looped()
+			self.frameUpdate()
+			if self.keyPressed(window.K_RETURN): self.play()
+			if self.keyPressed(window.K_ESCAPE): break
+
+	def play(self):
+		self.homeSound.stop()
 		self.oscController.recalibrate()
 		self.say("start!")
 		w=world.World()
@@ -47,8 +56,7 @@ class Application(window.SingletonWindow):
 		w.clear()
 		w.terminate()
 		self.wait(3000)
-		dialog.dialog("結果", "今回の特典は、%dでした。" % w.getScore())
-		self.exit()
+		#dialog.dialog("結果", "今回の特典は、%dでした。" % w.getScore())
 
 	def onExit(self):
 		if self.world: self.world.terminate()
