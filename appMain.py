@@ -21,7 +21,10 @@ class Application(window.SingletonWindow):
 		openal.oalGetListener().set_gain(8)
 		self.pointSample=bgtsound.sample("fx/point.ogg")
 		self.gameoverSample=bgtsound.sample("fx/gameover.ogg")
-		self.needleSample=bgtsound.sample("fx/needle.ogg")
+		self.needleSample=[]
+		for i in range(3):
+			self.needleSample.append(bgtsound.sample("fx/attack%d.ogg" % (i+1)))
+		#end needle load
 		self.world=None
 		self.oscController=osc.Controller()
 
@@ -29,10 +32,7 @@ class Application(window.SingletonWindow):
 	def run(self):
 		s=self.getScreenSize()
 		self.setMousePos(s[0]/2,s[1]/2)
-		self.oscController.recalibrate()
 		self._waitForReturn()
-		p=self.oscController.getPosition2d()
-		print(p)
 		self.oscController.recalibrate()
 		self.say("start!")
 		w=world.World()

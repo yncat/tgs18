@@ -4,3 +4,4 @@ pyOpenAL
 winpaths
 pywin32
 pyogg
+python-osc

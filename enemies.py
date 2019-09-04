@@ -56,9 +56,9 @@ class Mosquito(object):
 		self.timer.restart()
 
 	def _attack(self):
-		bgtsound.playOneShot(globalVars.app.needleSample)
+		bgtsound.playOneShot(globalVars.app.needleSample[random.randint(0,2)])
 		self.world.setPaused(True)
-		globalVars.app.wait(1100)
+		globalVars.app.wait(700)
 		self.world._detatchEnemy(self)
 		self.world.setPaused(False)
 		self.delete()
