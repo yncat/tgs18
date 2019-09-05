@@ -56,7 +56,7 @@ class Application(window.SingletonWindow):
 		w.clear()
 		w.terminate()
 		self.wait(3000)
-		#dialog.dialog("結果", "今回の特典は、%dでした。" % w.getScore())
+		self.say("ゲームオーバー! あなたは、%d匹の蚊をやっつけて、%d回、蚊に刺されました。" % (w.getScore(), w.getAttacked()))
 
 	def onExit(self):
 		if self.world: self.world.terminate()

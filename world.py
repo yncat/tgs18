@@ -21,6 +21,7 @@ class World(object):
 		self.spawnTimer=window.Timer()
 		self.score=0
 		self.paused=False
+		self.attacked=0
 
 	def terminate(self):
 		if self.background: self.background.terminate()
@@ -69,6 +70,11 @@ class World(object):
 		for elem in self.enemies:
 			elem.setPaused(p)
 
+	def logAttacked(self):
+			self.attacked+=1
+
+	def getAttacked(self):
+		return self.attacked
 	def _detatchEnemy(self,elem):
 		self.enemies.remove(elem)
 		self.background.changeVolume(AMB_VOLUME_STEP)

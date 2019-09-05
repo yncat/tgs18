@@ -45,7 +45,7 @@ class Mosquito(object):
 		if self.stat==DYING and self.deathTimer.elapsed>=30: self._kill()
 
 	def move(self):
-		if self.distance<0.1:
+		if self.stat==ACTIVE and self.distance<0.1:
 			self._attack()
 		self.degrees+=self.turn_speed
 		if self.degrees<0: self.degrees+=360
@@ -59,6 +59,7 @@ class Mosquito(object):
 		bgtsound.playOneShot(globalVars.app.needleSample[random.randint(0,2)])
 		self.world.setPaused(True)
 		globalVars.app.wait(700)
+		self.world.logAttacked()
 		self.world._detatchEnemy(self)
 		self.world.setPaused(False)
 		self.delete()
