@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # TGS19 main implementation
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
+import glob
 import openal
 import bgtsound
 import buildSettings
@@ -25,6 +26,10 @@ class Application(window.SingletonWindow):
 		for i in range(3):
 			self.needleSample.append(bgtsound.sample("fx/attack%d.ogg" % (i+1)))
 		#end needle load
+		self.clearSample=[]
+		for elem in glob.glob("fx/clears/*.ogg"):
+			self.clearSample.append(bgtsound.sample(elem))
+		#end clear sample loading
 		self.world=None
 		self.oscController=osc.Controller()
 

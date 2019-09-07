@@ -10,6 +10,8 @@ import player
 import window
 
 AMB_VOLUME_STEP=6
+CLEAR_SOUNDS_NUM=36
+
 class World(object):
 	"""This object represents a game world."""
 	def __init__(self):
@@ -59,7 +61,8 @@ class World(object):
 		self.enemies=[]
 
 	def _addPoint(self):
-		bgtsound.playOneShot(globalVars.app.pointSample)
+		s=CLEAR_SOUNDS_NUM-1 if self.score>=CLEAR_SOUNDS_NUM else self.score
+		bgtsound.playOneShot(globalVars.app.clearSample[s])
 		self.score+=1
 		self.background.changeVolume(AMB_VOLUME_STEP)
 
