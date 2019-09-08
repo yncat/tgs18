@@ -20,7 +20,7 @@ class Application(window.SingletonWindow):
 	def initialize(self):
 		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		openal.oalGetListener().set_gain(8)
-		self.pointSample=bgtsound.sample("fx/point.ogg")
+		self.countSample=bgtsound.sample("fx/countdown.ogg")
 		self.gameoverSample=bgtsound.sample("fx/gameover.ogg")
 		self.needleSample=[]
 		for i in range(3):

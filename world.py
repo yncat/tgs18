@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # TGS19 game world
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
+import random
 import background
 import bgtsound
 import openal
@@ -11,6 +12,8 @@ import window
 
 AMB_VOLUME_STEP=6
 CLEAR_SOUNDS_NUM=36
+TIME_LIMIT=180
+INITIAL_SPAWN_TIME=5000
 
 class World(object):
 	"""This object represents a game world."""
@@ -24,24 +27,42 @@ class World(object):
 		self.score=0
 		self.paused=False
 		self.attacked=0
+		self.endTimer=window.Timer()
+		self.time_count=0
+		self.force_game_over=False
+		self.current_spawn_time=INITIAL_SPAWN_TIME
 
 	def terminate(self):
 		if self.background: self.background.terminate()
 		self.background=None
 
 	def frameUpdate(self):
+		if self.endTimer.elapsed>=1000: self._processTime()
 		for elem in self.enemies[:]:
 			if elem is not None and elem.stat==enemies.DEAD:
 				self.enemies.remove(elem)
 				self._addPoint()
 			if elem is not None: elem.frameUpdate()
 		#end enemies update
-		if self.spawnTimer.elapsed>=5000:
+		if self.spawnTimer.elapsed>=self.current_spawn_time:
 			self.spawnTimer.restart()
 			self.spawnEnemy()
+			s=10000-(self.getScore()*100)
+			if s<3000: s=3000
+			s+=random.randint(-2000,2000)
+			self.current_spawn_time=s
 		#end spawn
 		self.player.frameUpdate()
 		for elem in self.enemies: elem.frameUpdate()
+
+	def _processTime(self):
+		self.time_count+=1
+		if self.time_count==TIME_LIMIT:
+			self.force_game_over=True
+			return
+		#end time up
+		if self.time_count>=TIME_LIMIT-10: bgtsound.playOneShot(globalVars.app.countSample)
+		self.endTimer.restart()
 
 	def getScore(self):
 		return self.score
@@ -51,7 +72,7 @@ class World(object):
 		self.background.changeVolume(AMB_VOLUME_STEP*-1)
 
 	def getGameover(self):
-		return self.player.getWeaponCapacity() ==0
+		return self.player.getWeaponCapacity() ==0 or self.force_game_over is True
 
 	def clear(self):
 		self.player.delete()
