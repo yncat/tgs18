@@ -49,7 +49,7 @@ class World(object):
 		if self.spawnTimer.elapsed>=self.current_spawn_time:
 			self.spawnTimer.restart()
 			self.spawnEnemy()
-			s=10000-(self.getScore()*100)
+			s=10000-(self.getScore()*1000)
 			if s<3000: s=3000
 			s+=random.randint(-2000,2000)
 			self.current_spawn_time=s
@@ -76,6 +76,7 @@ class World(object):
 		self.background.changeVolume(AMB_VOLUME_STEP*-1)
 		if not self.firstSpawned:
 			self.firstSpawned=True
+			e.setDistance(3)
 			e.setMoveInterval(100)
 			e.setApproachFacter(0)
 
@@ -94,9 +95,10 @@ class World(object):
 		bgtsound.playOneShot(globalVars.app.clearSample[s])
 		self.score+=1
 		self.background.changeVolume(AMB_VOLUME_STEP)
-		if not firstKilled:
+		if not self.firstKilled:
 			self.firstKilled=True
 			self.spawnTimer.restart()
+			self.current_spawn_time=3000
 
 	def setPaused(self,p):
 		if p==self.paused: return

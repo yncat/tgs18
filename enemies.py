@@ -40,6 +40,9 @@ class Mosquito(object):
 	def setMoveInterval(self,i):
 		self.move_interval=i
 
+	def setDistance(self,d):
+		self.distance=d
+
 	def updatePosition(self):
 		rad=math.radians(self.degrees)
 		self.x=math.cos(rad)*INITIAL_DISTANCE
