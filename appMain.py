@@ -58,7 +58,7 @@ class Application(window.SingletonWindow):
 			self.frameUpdate()
 			w.frameUpdate()
 			if w.getGameover(): break
-			if self.keyPressed(window.K_ESCAPE): break
+			if self.keyPressed(window.K_ESCAPE) or self.keyPressed(window.K_KP9): break
 		#end game loop
 		bgtsound.playOneShot(self.gameoverSample)
 		w.clear()
