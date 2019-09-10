@@ -20,6 +20,7 @@ class Mosquito(object):
 		self.world=world
 		self.degrees=random.randint(0,359)
 		self.distance=INITIAL_DISTANCE
+		self.move_interval=50
 		self.flying_sound=vrsound.load("fx/mosquito2.wav")
 		self.flying_sound.setLooping(True)
 		self.updatePosition()
@@ -33,6 +34,12 @@ class Mosquito(object):
 		self.deathTimer=window.Timer()
 		self.paused=False
 
+	def setApproachFacter(self,f):
+		self.approach_facter=f
+
+	def setMoveInterval(self,i):
+		self.move_interval=i
+
 	def updatePosition(self):
 		rad=math.radians(self.degrees)
 		self.x=math.cos(rad)*INITIAL_DISTANCE
@@ -41,7 +48,7 @@ class Mosquito(object):
 
 	def frameUpdate(self):
 		if self.stat==DEAD: return
-		if self.timer.elapsed>=50: self.move()
+		if self.timer.elapsed>=self.move_interval: self.move()
 		if self.stat==DYING and self.deathTimer.elapsed>=30: self._kill()
 
 	def move(self):
@@ -103,3 +110,4 @@ class Mosquito(object):
 		self.flying_sound.setPaused(p)
 		self.timer.setPaused(p)
 		self.paused=p
+

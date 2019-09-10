@@ -31,6 +31,8 @@ class World(object):
 		self.time_count=0
 		self.force_game_over=False
 		self.current_spawn_time=INITIAL_SPAWN_TIME
+		self.firstKilled=False
+		self.firstSpawned=False
 
 	def terminate(self):
 		if self.background: self.background.terminate()
@@ -68,8 +70,14 @@ class World(object):
 		return self.score
 
 	def spawnEnemy(self):
-		self.enemies.append(enemies.Mosquito(self))
+		if self.firstSpawned and not self.firstKilled: return
+		e=enemies.Mosquito(self)
+		self.enemies.append(e)
 		self.background.changeVolume(AMB_VOLUME_STEP*-1)
+		if not self.firstSpawned:
+			self.firstSpawned=True
+			e.setMoveInterval(100)
+			e.setApproachFacter(0)
 
 	def getGameover(self):
 		return self.player.getWeaponCapacity() ==0 or self.force_game_over is True
@@ -86,6 +94,9 @@ class World(object):
 		bgtsound.playOneShot(globalVars.app.clearSample[s])
 		self.score+=1
 		self.background.changeVolume(AMB_VOLUME_STEP)
+		if not firstKilled:
+			self.firstKilled=True
+			self.spawnTimer.restart()
 
 	def setPaused(self,p):
 		if p==self.paused: return

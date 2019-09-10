@@ -54,8 +54,8 @@ class Spray(object):
 		self.capacity-=1
 		for elem in self.world.enemies:
 			d=elem.getDistance(self.x,self.z)
-			if d<=2.5:
-				elem.damage(10-(d*4))
+			if d<=3.0:
+				elem.damage(10-(d*3.5))
 		#end for
 		self.attackTimer.restart()
 
