@@ -42,12 +42,15 @@ class Application(window.SingletonWindow):
 		while(True):
 			self.homeSound.play_looped()
 			self.frameUpdate()
-			if self.keyPressed(window.K_RETURN): self.play()
+			if self.keyPressed(window.K_KP0):
+			self.oscController.recalibrate()
+			self.say("センサー準備完了")
+		#end recalibration
+			if self.keyPressed(window.K_RETURN) or self.keyPressed(window.K_KP_ENTER): self.play()
 			if self.keyPressed(window.K_ESCAPE): break
 
 	def play(self):
 		self.homeSound.stop()
-		self.oscController.recalibrate()
 		self.say("start!")
 		w=world.World()
 		self.world=w
