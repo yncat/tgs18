@@ -1,6 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # TGS19 main implementation
 # Copyright (C) 2019 Yukio Nozawa <personal@nyanchangames.com>
+import datetime
 import glob
 import openal
 import bgtsound
@@ -64,8 +65,12 @@ class Application(window.SingletonWindow):
 		w.clear()
 		w.terminate()
 		self.wait(3000)
-		self.say("ゲームオーバー! あなたは、%d匹の蚊をやっつけて、%d回、蚊に刺されました。" % (w.getScore(), w.getAttacked()))
-
+		s="ゲームオーバー! あなたは、%d匹の蚊をやっつけて、%d回、蚊に刺されました。" % (w.getScore(), w.getAttacked())
+		self.say(s)
+		f=open("game_log.txt","a")
+		f.write("%s: kill %d, damage %d.\n" % (datetime.datetime.now(),w.getScore(), w.getAttacked()))
+		f.close()
+		
 	def onExit(self):
 		if self.world: self.world.terminate()
 		self.oscController.cleanup()
