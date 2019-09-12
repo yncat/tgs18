@@ -42,7 +42,7 @@ class Application(window.SingletonWindow):
 		while(True):
 			self.homeSound.play_looped()
 			self.frameUpdate()
-			if self.keyPressed(window.K_KP0):
+			if self.keyPressed(window.K_KP0) or self.keyPressed(window.K_0):
 				self.oscController.recalibrate()
 				self.say("センサー準備完了")
 			#end recalibration

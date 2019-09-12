@@ -16,7 +16,7 @@ class Player(object):
 		if buildSettings.CONTROLLER_MODE==0:
 			self.weapon.frameUpdate(globalVars.app.mouseMoveDistance()*2)
 		else:
-			self.weapon.frameUpdate(globalVars.app.oscController.getPosition2d()*10, direct=True)
+			self.weapon.frameUpdate(globalVars.app.oscController.getPosition2d(), direct=True)
 		#end mouse or OSC
 		if globalVars.app.mousePressed(0) or globalVars.app.keyPressed(window.K_b): self.weapon.trigger()
 		if globalVars.app.mousePressed(2): self.weapon.resetPosition()

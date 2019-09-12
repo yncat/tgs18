@@ -11,7 +11,7 @@ class Spray(object):
 	"""A spray can that contains poisonus substance."""
 	def __init__(self,world):
 		self.world=world
-		self.capacity=600
+		self.capacity=900
 		self.active=False
 		self.loopTimer=window.Timer()
 		self.looping=False
@@ -92,8 +92,9 @@ class Spray(object):
 	def move(self,dist,direct=False):
 		if direct:
 			#print("update %s" % str(dist))
-			self.x=dist[0]
-			self.z=dist[1]
+			self.x=dist[0]*10
+			self.z=dist[1]*10
+			if globalVars.app.keyPressed(window.K_w): globalVars.app.say("update %f %f" % (self.x, self.z))
 		else:
 			self.x+=dist[0]/200
 			self.z+=dist[1]/200
