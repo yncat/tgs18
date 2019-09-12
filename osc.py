@@ -36,7 +36,6 @@ class Controller(object):
 		self.offset=(self.raw[0],self.raw[1],self.raw[2])
 
 	def _onMessageReceived(self,unused_address, x, y, z,qw,qx,qy,qz):
-		print("%d %d %d" % (x,y,z))
 		self.raw=(x,y,z)
 		self.distance_cach=(0.0,0.0,0.0)
 

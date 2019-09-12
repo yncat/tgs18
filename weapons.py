@@ -11,7 +11,7 @@ class Spray(object):
 	"""A spray can that contains poisonus substance."""
 	def __init__(self,world):
 		self.world=world
-		self.capacity=1200
+		self.capacity=600
 		self.active=False
 		self.loopTimer=window.Timer()
 		self.looping=False
@@ -32,6 +32,7 @@ class Spray(object):
 		self.paused=False
 
 	def frameUpdate(self,dist,direct=False):
+		if globalVars.app.keyPressed(window.K_q): globalVars.app.say("%d %d" % (self.x, self.z))
 		if self.gotEmpty and self.afterEmptyTimer.elapsed>=3000:
 			self.gotEmpty=False
 			self.capacity=0
@@ -122,10 +123,10 @@ class Spray(object):
 		#end for
 
 	def _calcGains(self):
-		if self.capacity>625: return (1.0,0.0,0.0)
-		if self.capacity>575: return (1.0-((625-self.capacity)*0.02), (575+self.capacity)*0.02, 0.0)
-		if self.capacity>225: return (0.0,1.0,0.0)
-		if self.capacity>175: return (0.0, 1.0-((225-self.capacity)*0.02), (125+self.capacity)*0.02)
+		if self.capacity>325: return (1.0,0.0,0.0)
+		if self.capacity>275: return (1.0-((325-self.capacity)*0.02), (275+self.capacity)*0.02, 0.0)
+		if self.capacity>125: return (0.0,1.0,0.0)
+		if self.capacity>75: return (0.0, 1.0-((125-self.capacity)*0.02), (75+self.capacity)*0.02)
 		return (0.0, 0.0, 1.0)
 
 	def _playSound(self,s):
