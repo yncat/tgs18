@@ -58,6 +58,7 @@ class Application(window.SingletonWindow):
 		while(True):
 			self.frameUpdate()
 			w.frameUpdate()
+			if self.keyPressed(window.K_KP0) or self.keyPressed(window.K_0): self.oscController.recalibrate()
 			if w.getGameover(): break
 			if self.keyPressed(window.K_ESCAPE) or self.keyPressed(window.K_KP9): break
 		#end game loop
