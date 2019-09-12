@@ -11,7 +11,7 @@ class Spray(object):
 	"""A spray can that contains poisonus substance."""
 	def __init__(self,world):
 		self.world=world
-		self.capacity=900
+		self.capacity=700
 		self.active=False
 		self.loopTimer=window.Timer()
 		self.looping=False
