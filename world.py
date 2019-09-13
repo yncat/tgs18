@@ -12,7 +12,7 @@ import window
 
 AMB_VOLUME_STEP=6
 CLEAR_SOUNDS_NUM=36
-TIME_LIMIT=60
+TIME_LIMIT=90
 INITIAL_SPAWN_TIME=5000
 
 class World(object):
@@ -49,7 +49,7 @@ class World(object):
 		if self.spawnTimer.elapsed>=self.current_spawn_time:
 			self.spawnTimer.restart()
 			self.spawnEnemy()
-			s=10000-(self.getScore()*1000)
+			s=10000-(self.getScore()*1500)
 			if s<3000: s=3000
 			s+=random.randint(-2000,2000)
 			self.current_spawn_time=s
@@ -63,7 +63,7 @@ class World(object):
 			self.force_game_over=True
 			return
 		#end time up
-		if self.time_count>=TIME_LIMIT-10: bgtsound.playOneShot(globalVars.app.countSample)
+		if self.time_count>=TIME_LIMIT-10: bgtsound.playOneShot(globalVars.app.countSample,vol=-10)
 		self.endTimer.restart()
 
 	def getScore(self):
