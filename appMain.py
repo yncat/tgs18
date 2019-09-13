@@ -21,7 +21,7 @@ class Application(window.SingletonWindow):
 	def initialize(self):
 		super().initialize(1200, 800, buildSettings.GAME_NAME+" ("+str(buildSettings.GAME_VERSION)+")")
 		openal.oalGetListener().set_gain(8)
-		self.countSample=bgtsound.sample("fx/countdown.ogg")
+		self.countSample=bgtsound.sample("fx/count_new.ogg")
 		self.gameoverSample=bgtsound.sample("fx/gameover.ogg")
 		self.needleSample=[]
 		for i in range(3):
@@ -62,7 +62,7 @@ class Application(window.SingletonWindow):
 			if w.getGameover(): break
 			if self.keyPressed(window.K_ESCAPE) or self.keyPressed(window.K_KP9): break
 		#end game loop
-		bgtsound.playOneShot(self.gameoverSample)
+		bgtsound.playOneShot(self.gameoverSample,vol=-15)
 		w.clear()
 		w.terminate()
 		self.wait(3000)
