@@ -76,7 +76,7 @@ class World(object):
 		self.background.changeVolume(AMB_VOLUME_STEP*-1)
 		if not self.firstSpawned:
 			self.firstSpawned=True
-			e.setDistance(2)
+			e.setDistance(1.9)
 			e.setMoveInterval(100)
 			e.setApproachFacter(0)
 

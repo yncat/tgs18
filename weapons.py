@@ -7,11 +7,13 @@ import window
 
 """This module will contain weapons that can kill mosquitoes. I don't come up with anything except spray though."""
 
+DEFAULT_SPRAY_CAPACITY=700
 class Spray(object):
 	"""A spray can that contains poisonus substance."""
 	def __init__(self,world):
 		self.world=world
 		self.capacity=700
+		self._calcCrossfadePoints()
 		self.active=False
 		self.loopTimer=window.Timer()
 		self.looping=False
@@ -44,6 +46,14 @@ class Spray(object):
 	def getCapacity(self):
 		return self.capacity
 
+	def _calcCrossfadePoints(self):
+		self.crossfadePoints=[
+			int((self.capacity/2)+25),
+			int((self.capacity/2)-25),
+			int((self.capacity/8)+25),
+			int((self.capacity/8)-25),
+		]
+
 	def _attack(self):
 		if self.capacity ==1:
 			self.untrigger()
@@ -55,8 +65,8 @@ class Spray(object):
 		self.capacity-=1
 		for elem in self.world.enemies:
 			d=elem.getDistance(self.x,self.z)
-			if d<=3.0:
-				elem.damage(10-(d*3.5))
+			if d<=2.0:
+				elem.damage(10-(d*5.0))
 		#end for
 		self.attackTimer.restart()
 
@@ -124,10 +134,10 @@ class Spray(object):
 		#end for
 
 	def _calcGains(self):
-		if self.capacity>325: return (1.0,0.0,0.0)
-		if self.capacity>275: return (1.0-((325-self.capacity)*0.02), (275+self.capacity)*0.02, 0.0)
-		if self.capacity>125: return (0.0,1.0,0.0)
-		if self.capacity>75: return (0.0, 1.0-((125-self.capacity)*0.02), (75+self.capacity)*0.02)
+		if self.capacity>self.crossfadePoints[0]: return (1.0,0.0,0.0)
+		if self.capacity>self.crossfadePoints[1]: return (1.0-((self.crossfadePoints[0]-self.capacity)*0.02), (self.crossfadePoints[0]-self.capacity)*0.02, 0.0)
+		if self.capacity>self.crossfadePoints[2]: return (0.0,1.0,0.0)
+		if self.capacity>self.crossfadePoints[3]: return (0.0, 1.0-((self.crossfadePoints[2]-self.capacity)*0.02), (self.crossfadePoints[2]-self.capacity)*0.02)
 		return (0.0, 0.0, 1.0)
 
 	def _playSound(self,s):
