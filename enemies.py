@@ -45,7 +45,7 @@ class Mosquito(object):
 
 	def updatePosition(self):
 		rad=math.radians(self.degrees)
-		self.x=math.cos(rad)*self.distance
+		self.x=math.cos(rad)*INITIAL_DISTANCE
 		self.z=math.sin(rad)*self.distance
 		self.flying_sound.setPosition((self.x,0,self.z))
 

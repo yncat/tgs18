@@ -65,8 +65,8 @@ class Spray(object):
 		self.capacity-=1
 		for elem in self.world.enemies:
 			d=elem.getDistance(self.x,self.z)
-			if d<=2.0:
-				elem.damage(10-(d*5.0))
+			if d<=3.0:
+				elem.damage(10-(d*3.0))
 		#end for
 		self.attackTimer.restart()
 
@@ -75,7 +75,7 @@ class Spray(object):
 		self._playSound(self.loopSound)
 
 	def trigger(self):
-		if self.capacity<=1:
+		if self.capacity<=0:
 			self.emptySound.play()
 			return
 		#end empty
