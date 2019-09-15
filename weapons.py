@@ -75,7 +75,7 @@ class Spray(object):
 		self._playSound(self.loopSound)
 
 	def trigger(self):
-		if self.capacity<=0:
+		if self.capacity<=1:
 			self.emptySound.play()
 			return
 		#end empty
@@ -89,6 +89,7 @@ class Spray(object):
 		self.active=True
 
 	def untrigger(self):
+		if self.capacity==1: self.gotEmpty=True
 		if self.active is not True: return
 		self._playSound(self.stopSound)
 		for elem in self.loopSound:
